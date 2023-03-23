@@ -11,7 +11,7 @@ Example scripts using [EasyVVUQ][https://easyvvuq.readthedocs.io/en/dev/] to qua
 
 This particular script `campaign.py` uses Polynomial Chaos Expansion(PCE) to estimate the uncertainty of the electrostatic potential  ($\phi$) as a function of two uniformly distributed random variables- the initial particle velocity ($v$) and the particle charge density ($\rho$) -  along a line $y=\mathrm{const}$. 
 
-PCE estimates \phi at each evaluation point ($x_n$) as a sum of orthogonal polynomials $\Phi$,
+PCE estimates $\phi$ at each evaluation point ($x_n$) as a sum of orthogonal polynomials $\Phi$,
 
 $$
 \phi(x_n,v,\rho) \approx \sum_{k=0}^{k=N}c_k(x_n)\Phi_k(v,\rho).
