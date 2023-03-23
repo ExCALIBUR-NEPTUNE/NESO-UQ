@@ -18,24 +18,27 @@ params = {
     #Should be integer but the MC sampler spits out real numbers
     #neso seems to cope regardless"
     'NP' :
-    {"type" : "float", "default" : 7500},
+    {"type" : "float", "default" : 400000},
     #Number density of particles
     'NUM_DENSITY' :
-    {"type" : "float", "default" : 52.637890139143245},
-    #Charge density
+    {"type" : "float", "default" : 105},
+    #Charge and number density
     'DENSITY' :
-    {"type" : "float", "default" : 52.637890139143245},
+    {"type" : "float", "default" : 105},
     #PRNG seed
     #mashed keyboard to get a fixed seed, won't vary but convenient to set it here
     'SEED' :
-    {"type" :"integer","default" : 284289374}
+    {"type" :"integer","default" : 284289374},
+    #Initial particle velocity
+    'VELOCITY' :
+    {"type" : "float", "default" : 1.0}
 }
 
 
 #List of variables to vary
 vary = {
-    'NP': cp.DiscreteUniform(5000,10000),
-    'NUM_DENSITY':cp.Uniform(20,90.0)
+    'DENSITY':cp.Uniform(94.5,115.5),
+    'VELOCITY':cp.Uniform(0.9,1.10)
 }
 
 
@@ -45,20 +48,17 @@ encoder = uq.encoders.GenericEncoder(
     target_filename='neso.xml'
 )
 
-
-decoder = uq.decoders.JSONDecoder('output.json',output_columns=['Gradient'])
+decoder = uq.decoders.JSONDecoder('output.json',output_columns=['PHI','X'])
 
 execute = ExecuteLocal('{}/run.sh neso.xml'.format(os.getcwd()))
 
 actions = Actions(CreateRunDirectory('/tmp'),
                   Encode(encoder), execute, Decode(decoder))
 
-campaign = uq.Campaign(name='neso_mc_', params=params, actions=actions)
+campaign = uq.Campaign(name='neso_pce_', params=params, actions=actions)
 
 
-n_samps=256
-
-my_sampler = uq.sampling.QMCSampler(vary, n_mc_samples = n_samps)
+my_sampler = uq.sampling.PCESampler(vary, polynomial_order=3)
 
 campaign.set_sampler(my_sampler)
 
@@ -66,41 +66,20 @@ campaign.set_sampler(my_sampler)
 #i.e. too many
 campaign.execute(sequential=True).collate()
 
-my_analysis = uq.analysis.QMCAnalysis(sampler=my_sampler, qoi_cols=["Gradient"])
+my_analysis = uq.analysis.PCEAnalysis(sampler=my_sampler, qoi_cols=["PHI","X"])
 
 campaign.apply_analysis(my_analysis)
 
 results = campaign.get_last_analysis()
 
+#Not shure this is the best way
+#Assume the X values are the same every time so we only get the first row
+#of the dataframe
+xvalues = results.samples['X'].iloc[[0]].to_numpy()
 
-#Get some statistics - don't really know what I am doing here
-
-mean = results.describe("Gradient", "mean")
-var = results.describe("Gradient", "var")
-
-print(mean)
-print(var)
-
-samples = results.samples
-
-plt.hist(samples['Gradient'], 4)
-plt.title(f"N_samples: {n_samps}")
-plt.xlabel("Gradient")
-plt.ylabel("freq")
-plt.savefig("histogram.png")
-
-samples_sort = np.sort(np.array(samples['Gradient']).squeeze())
-iis = np.linspace(0,1,samples_sort.size)
-
-plt.step(samples_sort, iis)
-plt.title(f"N_samples: {n_samps}")
-plt.xlabel("Gradient")
-plt.ylabel("ecdf")
-plt.savefig("ecdf.png")
-
-results.plot_sobols_treemap('Gradient', figsize=(10, 10))
-plt.axis('off');
+#Plot the moments/confidence intervals at each evaluation point of phi
+results.plot_moments(qoi='PHI',ylabel="$\phi$",xlabel="$x$",xvalues=xvalues[0])
+plt.savefig("moments.png")
+#Plot the sobol indicies of each input variable as a function of X
+results.plot_sobols_first(qoi='PHI',xlabel="$x$",xvalues=xvalues[0])
 plt.savefig("sobols.png")
-
-sobols = results.sobols_first('Gradient')
-print(sobols)

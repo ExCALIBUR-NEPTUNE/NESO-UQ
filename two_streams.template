@@ -33,14 +33,16 @@
             <P> particle_num_write_field_steps = 0 </P>
             <P> particle_num_print_steps = 20 </P>
             <P> particle_distribution_position = 2 </P>
-            <P> particle_initial_velocity = 1.0 </P>
+            <P> particle_initial_velocity = $VELOCITY </P>
             <!-- <P> particle_charge_density = 52.637890139143245 </P> !-->
             <!-- <P> particle_number_density = 52.637890139143245 </P> !-->
-            <P> particle_charge_density = $NUM_DENSITY </P>
+            <P> particle_charge_density = $DENSITY </P>
             <P> particle_number_density = $DENSITY </P>
             <P> particle_position_seed = $SEED </P>
+            <P> line_field_deriv_evaluations_step = 20 </P>
+            <P> line_field_deriv_evaluations_numx = 100 </P>
+            <P> line_field_deriv_evaluations_numy = 1 </P>
         </PARAMETERS>
-
         <VARIABLES>
             <V ID="0"> u </V>
             <V ID="1"> rho </V>
