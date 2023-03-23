@@ -17,7 +17,7 @@ $$
 \phi(x_n,v,\rho) \approx \sum_{k=0}^{k=N}c_k(x_n)\Phi_k(v,\rho).
 $$
 
-The number of runs required to calculate the approximation is  $(p + 1)^d$, $p$ is the polynomial order, and $d$ is the number of uncertain parameters. In this script $p=3$ and $d=2$.
+The number of runs required to calculate the approximation is  $(p + 1)^d$, $p$ is the polynomial order, and $d$ is the number of uncertain parameters. In this script $p=3$ and $d=2$, but virtually identical results are obtained with $p=2$ (see moments_2ndorder.png and sobols_2ndorder.png)
 
 ## Results
 
@@ -25,3 +25,5 @@ The number of runs required to calculate the approximation is  $(p + 1)^d$, $p$ 
 
 ![plot of sobol indicies](sobols.png)
 
+- DENSITY is the particle charge density and particle number density (these are always equal in this analysis)
+- VELOCITY is the initial particle velocity
