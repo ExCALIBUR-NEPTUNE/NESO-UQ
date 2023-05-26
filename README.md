@@ -4,8 +4,8 @@ Example scripts using [EasyVVUQ][https://easyvvuq.readthedocs.io/en/dev/] to qua
 ## Usage
  - Run `pip install -r requirements.txt`
  - Modify the `run.sh` to match your environment
- - Modify `campaign.py` file as required
- - run `python campaign.py`
+ - Modify `python/campaign.py` file as required
+ - run `python python/campaign.py`
 
 ## Explanation
 
@@ -21,9 +21,9 @@ The number of runs required to calculate the approximation is  $(p + 1)^d$, $p$ 
 
 ## Results
 
-![plot of moments](moments.png)
+![plot of moments](figs/moments.png)
 
-![plot of sobol indicies](sobols.png)
+![plot of sobol indicies](figs/sobols.png)
 
 - DENSITY is the particle charge density and particle number density (these are always equal in this analysis)
 - VELOCITY is the initial particle velocity

@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from easyvvuq.actions import CreateRunDirectory, Encode, Decode, CleanUp, ExecuteLocal, Actions
 
 
-#Set the parameters that can be modified in two_streams.template 
+#Set the parameters that can be modified in two_stream.template 
 params = {
     #Number of particles
     #Should be integer but the MC sampler spits out real numbers
@@ -43,7 +43,7 @@ vary = {
 
 
 encoder = uq.encoders.GenericEncoder(
-    'two_streams.template',
+    'examples/two_stream/two_stream.template',
     delimiter='$',
     target_filename='neso.xml'
 )

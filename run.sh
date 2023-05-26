@@ -11,8 +11,8 @@ EXEC=Electrostatic2D3V
 # Edit these variables to point to location of
 # the mesh and post processing script (included in repo)
 ROOT_DIR=/path/to/repo
-PYFILE=${ROOT_DIR}/extract_last_evaluations.py
-MESH=${ROOT_DIR}/two_stream_mesh.xml
+PYFILE=${ROOT_DIR}/python/extract_last_evaluations.py
+MESH=${ROOT_DIR}/examples/two_stream/two_stream_mesh.xml
 export OMP_NUM_THREADS=1
 # Edit run command as appropriate for your system
 mpirun -n 4 -map-by core -bind-to hwthread ${EXEC} $1 ${MESH}  > /dev/null
