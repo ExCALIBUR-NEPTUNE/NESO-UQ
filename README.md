@@ -1,5 +1,5 @@
 # UQ of NESO
-Example scripts using [EasyVVUQ][https://easyvvuq.readthedocs.io/en/dev/] to quantify the uncertainty in the electrostatic potential as a function of the initial particle velocity and the particle charge and number density (NOTE: these are set to the same value).
+Example scripts using [EasyVVUQ](https://easyvvuq.readthedocs.io/en/dev/) to quantify the uncertainty in the electrostatic potential as a function of the initial particle velocity and the particle charge and number density (NOTE: these are set to the same value).
 
 ## Usage
  - Run `pip install -r requirements.txt`
